@@ -24,7 +24,6 @@ func (c *Client) CreateCredentialExchangeRecordV2(
 	var request = createCredentialExchangeRecordRequestV2{
 		CredentialPreview: credentialPreview,
 		Filter: Filter{
-			DIF: map[string]string{},
 			Indy: IndyFilter{
 				CredentialDefinitionID: credentialDefinitionID,
 				IssuerDID:              issuerDID,
@@ -70,7 +69,6 @@ func (c *Client) ProposeCredentialV2(
 		Comment:           comment,
 		CredentialPreview: credentialPreview,
 		Filter: Filter{
-			DIF: map[string]string{},
 			Indy: IndyFilter{
 				CredentialDefinitionID: credentialDefinitionID,
 				IssuerDID:              issuerDID,
@@ -102,8 +100,7 @@ type credentialOfferRequestV2 struct {
 }
 
 type Filter struct {
-	DIF  map[string]string `json:"dif"`
-	Indy IndyFilter        `json:"indy"`
+	Indy IndyFilter `json:"indy"`
 }
 
 type IndyFilter struct {
@@ -129,7 +126,6 @@ func (c *Client) OfferCredentialV2(
 		CredentialPreview:      credentialPreview,
 		Comment:                comment,
 		Filter: Filter{
-			DIF: map[string]string{},
 			Indy: IndyFilter{
 				CredentialDefinitionID: credentialDefinitionID,
 			},
@@ -193,7 +189,6 @@ func (c *Client) IssueCredentialV2(
 		Comment:           comment,
 		CredentialPreview: credentialPreview,
 		Filter: Filter{
-			DIF: map[string]string{},
 			Indy: IndyFilter{
 				CredentialDefinitionID: credentialDefinitionID,
 				IssuerDID:              issuerDID,
