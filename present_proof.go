@@ -435,7 +435,7 @@ func (c *Client) VerifyPresentationByID(presentationExchangeID string) (Presenta
 	var presentationExchange PresentationExchangeRecord
 	err := c.post(fmt.Sprintf("/present-proof/records/%s/verify-presentation", presentationExchangeID), nil, nil, &presentationExchange)
 	if err != nil {
-		return PresentationExchangeRecord{}, nil
+		return PresentationExchangeRecord{}, err
 	}
 	return presentationExchange, nil
 }
