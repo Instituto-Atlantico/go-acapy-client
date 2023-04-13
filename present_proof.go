@@ -1,6 +1,7 @@
 package acapy
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"strconv"
@@ -194,6 +195,7 @@ type Restrictions struct {
 	SchemaIssuerDID        string `json:"schema_issuer_did,omitempty"`
 	IssuerDID              string `json:"issuer_did,omitempty"`
 	SchemaID               string `json:"schema_id,omitempty"`
+	Value                  string `json:"attr::%s::value,omitempty"`
 	// TODO support `{"attr::attr1::value": "<some-value>"}`
 }
 
@@ -265,8 +267,12 @@ func NewRequestedAttribute(
 		restrictionsSlice = append(restrictionsSlice, *restrictions)
 	}
 
+	var mapped []map[string]string
+	data, _ := json.Marshal(restrictionsSlice)
+	json.Unmarshal(data, &mapped)
+
 	return RequestedAttribute{
-		Restrictions: restrictionsSlice,
+		Restrictions: mapped,
 		Name:         name,
 		Names:        names,
 		NonRevoked:   nonRevoked,
@@ -274,10 +280,10 @@ func NewRequestedAttribute(
 }
 
 type RequestedAttribute struct {
-	Restrictions []Restrictions `json:"restrictions"`    // Required when using Names, otherwise empty slice instead of nil
-	Name         string         `json:"name,omitempty"`  // XOR with Names
-	Names        []string       `json:"names,omitempty"` // XOR with Name | Requires non-empty restrictions
-	NonRevoked   NonRevoked     `json:"non_revoked"`     // Optional
+	Restrictions []map[string]string `json:"restrictions"`    // Required when using Names, otherwise empty slice instead of nil
+	Name         string              `json:"name,omitempty"`  // XOR with Names
+	Names        []string            `json:"names,omitempty"` // XOR with Name | Requires non-empty restrictions
+	NonRevoked   NonRevoked          `json:"non_revoked"`     // Optional
 }
 
 func NewProofRequest(

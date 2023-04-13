@@ -3,6 +3,7 @@ package acapy
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io"
 	"io/ioutil"
 	"log"
@@ -104,8 +105,10 @@ func (c *Client) request(method string, url string, queryParams map[string]strin
 	if err != nil || response.StatusCode >= 300 {
 		if response != nil {
 			log.Printf("Request failed: %s", response.Status)
-			if body, err := ioutil.ReadAll(response.Body); err != nil {
+			if body, _ := ioutil.ReadAll(response.Body); err != nil {
 				log.Printf("Response body: %s", body)
+
+				err = errors.New(string(body))
 			}
 		}
 		return err
