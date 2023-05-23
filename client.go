@@ -68,8 +68,8 @@ func (c *Client) put(path string) error {
 	return c.request(http.MethodPut, c.acapyURL+path, nil, nil, nil)
 }
 
-func (c *Client) delete(url string) error {
-	return c.request(http.MethodDelete, url, nil, nil, nil)
+func (c *Client) delete(path string) error {
+	return c.request(http.MethodDelete, c.acapyURL+path, nil, nil, nil)
 }
 
 func (c *Client) request(method string, url string, queryParams map[string]string, body interface{}, responseObject interface{}) error {
